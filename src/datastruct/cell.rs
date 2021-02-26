@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
-// this whole mess is totally useless
+// this whole mess is totally useless, or does it?
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct Cell {
     pub(super) row: usize,
     pub(super) column: usize,
@@ -60,6 +60,9 @@ impl ACell for CellKey {
 impl CellKey {
     pub fn new(row: usize, column: usize) -> Box<dyn ACell> {
         Box::new(CellKey { row, column })
+    }
+    pub fn new_key(row: usize, column: usize) -> CellKey {
+        CellKey { row, column }
     }
     pub(super) fn from_cell_key(cell: Box<dyn ACell>) -> Cell {
         //todo this sucks a lot...
