@@ -32,11 +32,24 @@ impl Display for Matrix {
     }
 }
 
+impl Matrix {
+    pub fn to_formatted_string(&self) -> String {
+        let mut formatted = String::new();
+        self.cells.iter().for_each(|cell| {
+            formatted.push(cell.value);
+            if cell.column == self.max_nb_column -1 {
+                formatted.push_str("\n");
+            }}
+        );
+        formatted
+    } 
+
+}
 #[cfg(test)]
 mod test {
     use super::Matrix;
     #[test]
-    fn iter_matrix() {
+    fn to_string_matrix() {
         let text = "this is a text avec du français";
         let matrix = Matrix::new(text.to_string(), 8);
         assert_eq!("thisisatextavecdufrançais", matrix.to_string());

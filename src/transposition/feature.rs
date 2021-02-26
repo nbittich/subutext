@@ -7,13 +7,7 @@ use super::{
 };
 
 impl Matrix {
-    fn as_cells(&self) -> Vec<CellKey> {
-        self.cells
-            .iter()
-            .map(|c| CellKey::new_key(c.row, c.column))
-            .collect()
-    }
-    fn slice_at(&mut self, cell: Box<dyn ACell>) -> Matrix {
+    pub fn slice_at(&mut self, cell: Box<dyn ACell>) -> Matrix {
         let right_slice: String = self
             .cells
             .split_off(&CellKey::from_cell_key(cell))
@@ -22,7 +16,7 @@ impl Matrix {
             .collect();
         Matrix::new(right_slice, self.max_nb_column)
     }
-    fn shift_end(&mut self, cell: Box<dyn ACell>) -> &Matrix {
+    pub fn shift_end(&mut self, cell: Box<dyn ACell>) -> &Matrix {
         let cells: BTreeSet<Cell> = self
             .cells
             .iter()
@@ -47,7 +41,7 @@ impl Matrix {
 
         self
     }
-    fn merge_at(&mut self, start_at: CellKey, other_matrix: &mut Matrix) -> &Matrix {
+    pub fn merge_at(&mut self, start_at: CellKey, other_matrix: &mut Matrix) -> &Matrix {
         let last_row = self.cells.iter().last().map(|c| c.row).unwrap();
         other_matrix
             .cells
@@ -79,7 +73,7 @@ impl Matrix {
 
         self
     }
-    fn merge(&mut self, other_matrix: &Matrix) -> Matrix {
+    pub fn merge(&mut self, other_matrix: &Matrix) -> Matrix {
         let mut text = self.to_string();
         let text_to_merge = other_matrix.to_string();
         text.push_str(&text_to_merge);
@@ -102,7 +96,7 @@ impl Matrix {
             .collect();
         self
     }
-    fn diag(&self) -> Self {
+    pub fn diag(&self) -> Self {
         let last_row = self.cells.iter().last().unwrap();
         let max_col = self.max_nb_column;
         let mut text = self.to_string().chars().collect::<Vec<char>>();
@@ -126,27 +120,17 @@ mod test {
 
     #[test]
     fn slice_test() {
-        let text = "this is a text avec du français";
-        let mut matrix = Matrix::new(text.to_string(), 8);
-        let matrix_slice = matrix.slice_at(CellKey::new(1, 4));
-        assert_eq!(12, matrix.len());
-        assert_eq!(13, matrix_slice.len());
-        assert_eq!("thisisatexta", matrix.to_string());
-        assert_eq!("vecdufrançais", matrix_slice.to_string());
-        let mut matrix = Matrix::new(text.to_string(), 8);
-        matrix.swap_letters();
-        assert_eq!("tievunshsxefçiatcrastadai", matrix.to_string());
-
         let zod = std::fs::read_to_string("original.txt").unwrap();
         let mut matrix = Matrix::new(zod, 17);
         let mut second_matrix = matrix.slice_at(CellKey::new(8, 17));
         let mut third_matrix = second_matrix.slice_at(CellKey::new(8, 11));
-        let mut fourth_matrix = third_matrix.slice_at(CellKey::new(0, 6));
+        let fourth_matrix = third_matrix.slice_at(CellKey::new(0, 6));
         second_matrix.swap_letters();
         second_matrix.merge_at(CellKey::new_key(0, 11), &mut third_matrix);
         matrix.swap_letters();
         second_matrix = second_matrix.diag();
         second_matrix.shift_end(CellKey::new(5, 3));
-        println!("{:?}", matrix.diag().merge(&second_matrix).merge(&fourth_matrix));
+        let cyp = std::fs::read_to_string("cypher.txt").unwrap();
+        assert_eq!(cyp, matrix.diag().merge(&second_matrix).merge(&fourth_matrix).to_formatted_string());
     }
 }

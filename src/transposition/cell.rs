@@ -72,9 +72,6 @@ impl CellKey {
             value: 'x',
         }
     }
-    pub(super) fn as_cell(row: usize, col: usize) -> Cell {
-        Self::from_cell_key(Self::new(row, col))
-    }
 }
 
 impl PartialEq for Cell {

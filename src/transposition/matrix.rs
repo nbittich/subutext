@@ -8,7 +8,7 @@ pub struct Matrix {
 }
 
 impl Matrix {
-    pub(super) fn new(text: String, max_columns: usize) -> Matrix {
+    pub fn new(text: String, max_columns: usize) -> Matrix {
         let only_alpha_numerics: Vec<char> = text.chars().filter(|c| c.is_alphanumeric()).collect();
         let text_len = only_alpha_numerics.len();
         let chunks = only_alpha_numerics.chunks(max_columns);

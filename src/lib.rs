@@ -1,2 +1,3 @@
-pub mod datastruct;
-pub mod extractor;
+pub mod transposition;
+pub mod inputhandler;
+pub mod homophonic;
