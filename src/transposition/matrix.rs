@@ -17,8 +17,7 @@ impl Matrix {
         } else {
             text_len
         };
-        let mut cells: BTreeSet<Cell> = BTreeSet::new();
-        chunks
+        let cells: BTreeSet<Cell> = chunks
             .enumerate()
             .flat_map(|(row, chars)| {
                 chars.iter().enumerate().map(move |(column, value)| Cell {
@@ -26,10 +25,7 @@ impl Matrix {
                     column,
                     value: *value,
                 })
-            })
-            .for_each(|cell| {
-                cells.insert(cell);
-            });
+            }).collect();
 
         Matrix {
             cells,
