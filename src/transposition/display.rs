@@ -37,13 +37,12 @@ impl Matrix {
         let mut formatted = String::new();
         self.cells.iter().for_each(|cell| {
             formatted.push(cell.value);
-            if cell.column == self.max_nb_column -1 {
+            if cell.column == self.max_nb_column - 1 {
                 formatted.push_str("\n");
-            }}
-        );
+            }
+        });
         formatted
-    } 
-
+    }
 }
 #[cfg(test)]
 mod test {

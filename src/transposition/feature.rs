@@ -23,7 +23,7 @@ impl Matrix {
             .filter(|c| c.row == cell.get_row())
             .skip(cell.get_column())
             .map(|c| {
-                let mut column = self.max_nb_column -1;
+                let mut column = self.max_nb_column - 1;
                 if c.column != cell.get_column() {
                     column = c.get_column() - 1;
                 }
@@ -131,6 +131,13 @@ mod test {
         second_matrix = second_matrix.diag();
         second_matrix.shift_end(CellKey::new(5, 3));
         let cyp = std::fs::read_to_string("cypher.txt").unwrap();
-        assert_eq!(cyp, matrix.diag().merge(&second_matrix).merge(&fourth_matrix).to_formatted_string());
+        assert_eq!(
+            cyp,
+            matrix
+                .diag()
+                .merge(&second_matrix)
+                .merge(&fourth_matrix)
+                .to_formatted_string()
+        );
     }
 }

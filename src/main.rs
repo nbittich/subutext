@@ -1,4 +1,8 @@
-use zodiac_cypher::{homophonic::transformer::HomophonCypher, inputhandler::file, transposition::{cell::CellKey, matrix::Matrix}};
+use zodiac_cypher::{
+    homophonic::transformer::HomophonCypher,
+    inputhandler::file,
+    transposition::{cell::CellKey, matrix::Matrix},
+};
 
 fn main() {
     let zod = file::read_file(
@@ -15,7 +19,11 @@ fn main() {
     matrix.swap_letters();
     second_matrix = second_matrix.diag();
     second_matrix.shift_end(CellKey::new(5, 3));
-    let transposition = matrix.diag().merge(&second_matrix).merge(&fourth_matrix).to_formatted_string();
+    let transposition = matrix
+        .diag()
+        .merge(&second_matrix)
+        .merge(&fourth_matrix)
+        .to_formatted_string();
     let cypher = HomophonCypher::new(transposition);
     println!("{}", cypher.transform())
 }
