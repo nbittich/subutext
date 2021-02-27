@@ -25,7 +25,8 @@ impl Matrix {
                     column,
                     value: *value,
                 })
-            }).collect();
+            })
+            .collect();
 
         Matrix {
             cells,
