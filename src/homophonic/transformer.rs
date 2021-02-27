@@ -40,8 +40,7 @@ impl HomophonCypher {
                 let vector: Vec<char> = (1..rand::thread_rng().gen_range(3..8))
                     .into_iter()
                     .map(|_i| {
-                        (available_keys
-                            .remove(rand::thread_rng().gen_range(0..available_keys.len())))
+                        available_keys.remove(rand::thread_rng().gen_range(0..available_keys.len()))
                     })
                     .collect();
                 (*c, vector)
